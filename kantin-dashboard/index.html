@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kantin HSI-BS — Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar">
+      <div class="brand">
+        <div class="brand-mark">▦</div>
+        <div><strong>Kantin HSI-BS</strong><span>HSI Boarding School</span></div>
+      </div>
+      <div class="menu-label">MENU</div>
+      <nav class="nav">
+        <button class="nav-link active" data-page="dashboard"><span>▦</span> Dashboard</button>
+        <button class="nav-link" data-page="produk"><span>◇</span> Produk</button>
+        <button class="nav-link" data-page="laporan"><span>▤</span> Laporan</button>
+        <button class="nav-link" data-page="pengaturan"><span>⚙</span> Pengaturan</button>
+      </nav>
+      <div class="sidebar-bottom"><div class="avatar">AD</div><div><b>Admin Kantin</b><span>Administrator</span></div><button class="more">•••</button></div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <button class="mobile-menu" id="mobileMenu" aria-label="Buka menu">☰</button>
+        <div class="breadcrumbs">Kantin HSI-BS <span>/</span> <b id="crumb">Dashboard</b></div>
+        <div class="top-actions"><span class="status-dot"></span><span>Admin Kantin</span><div class="avatar small">AD</div></div>
+      </header>
+
+      <section class="page active-page" id="dashboardPage">
+        <div class="page-heading">
+          <div><p class="eyebrow">RINGKASAN KANTIN</p><h1>Dashboard Kantin</h1><p class="subheading">Pantau penjualan dan performa kantin kamu hari ini.</p></div>
+          <div class="filters">
+            <label>Tanggal <input type="date" id="dateFilter" value="2026-10-23"></label>
+            <label>Kategori <select id="categoryFilter"><option value="Semua">Semua kategori</option><option>Makanan</option><option>Minuman</option><option>Snack</option></select></label>
+          </div>
+        </div>
+
+        <div class="stats-grid">
+          <article class="stat-card"><div class="stat-top"><span class="stat-icon blue">▣</span><span class="muted">Omzet</span><span class="info">i</span></div><div class="stat-value" id="revenue">Rp1.410.000</div><div class="stat-foot"><span class="trend">↗ 12,8%</span><span> dibanding minggu lalu</span></div></article>
+          <article class="stat-card"><div class="stat-top"><span class="stat-icon mint">♧</span><span class="muted">Item terjual</span><span class="info">i</span></div><div class="stat-value" id="itemsSold">261</div><div class="stat-foot"><span class="trend">↗ 8,4%</span><span> dari 10 produk yang laku</span></div></article>
+          <article class="stat-card"><div class="stat-top"><span class="stat-icon purple">▤</span><span class="muted">Transaksi</span><span class="info">i</span></div><div class="stat-value" id="transactions">21</div><div class="stat-foot"><span class="trend">↗ 5,2%</span><span> dalam 7 hari</span></div></article>
+        </div>
+
+        <div class="charts-grid">
+          <article class="panel revenue-panel"><div class="panel-heading"><div><h2>Omzet per hari</h2><p>Performa penjualan selama 7 hari terakhir</p></div><span class="unit">Rupiah</span></div><div class="chart-wrap"><canvas id="revenueChart"></canvas></div></article>
+          <article class="panel category-panel"><div class="panel-heading"><div><h2>Item per kategori</h2><p>Komposisi produk terjual</p></div><span class="unit">Porsi</span></div><div class="donut-wrap"><canvas id="categoryChart"></canvas></div><div class="legend"><span><i class="legend-dot blue-dot"></i>Makanan</span><span><i class="legend-dot green-dot"></i>Minuman</span><span><i class="legend-dot purple-dot"></i>Snack</span></div></article>
+        </div>
+
+        <div class="bottom-grid">
+          <article class="panel products-panel"><div class="panel-heading"><div><h2>Produk terlaris</h2><p>Daftar produk dan omzetnya</p></div><button class="text-button" id="seeAll">Lihat semua <span>→</span></button></div>
+            <div class="table-tools"><input id="productSearch" type="search" placeholder="⌕  Cari produk..." aria-label="Cari produk"><select id="sortProducts" aria-label="Urutkan produk"><option value="sold">Terjual terbanyak</option><option value="revenue">Omzet tertinggi</option><option value="name">Nama A-Z</option></select></div>
+            <div class="table-scroll"><table><thead><tr><th>Produk</th><th>Kategori</th><th>Terjual</th><th>Omzet</th></tr></thead><tbody id="productRows"></tbody></table></div>
+            <div class="table-footer"><span id="productCount">Menampilkan 5 produk</span><button class="pagination" id="showMore">Tampilkan semua ↓</button></div>
+          </article>
+          <article class="panel promo-panel"><div class="panel-heading"><div><h2>Promo minggu ini</h2><p>Promo aktif di kantin</p></div><span class="promo-count">4 aktif</span></div>
+            <div class="promo-list">
+              <div class="promo-item"><div class="promo-emoji emoji-blue">🍜</div><div class="promo-copy"><b>Senin Hemat</b><span>Mie Ayam cuma Rp7.000</span></div><span class="promo-tag tag-blue">SENIN</span></div>
+              <div class="promo-item"><div class="promo-emoji emoji-yellow">☀</div><div class="promo-copy"><b>Paket Sarapan</b><span>Nasi Uduk + Es Teh Rp9.000</span></div><span class="promo-tag tag-yellow">SETIAP HARI</span></div>
+              <div class="promo-item"><div class="promo-emoji emoji-cyan">🍌</div><div class="promo-copy"><b>Menu Baru</b><span>Pisang Goreng Coklat</span></div><span class="promo-tag tag-cyan">MINGGU INI</span></div>
+              <div class="promo-item"><div class="promo-emoji emoji-pink">💧</div><div class="promo-copy"><b>Jumat Berkah</b><span>Air mineral gratis tiap beli makanan</span></div><span class="promo-tag tag-pink">JUMAT</span></div>
+            </div>
+            <button class="outline-button" id="promoButton">＋ Tambah promo</button>
+          </article>
+        </div>
+        <footer class="footer">© 2026 Kantin HSI-BS <span>•</span> Dashboard penjualan kantin</footer>
+      </section>
+
+      <section class="page" id="produkPage">
+        <div class="page-heading"><div><p class="eyebrow">MANAJEMEN MENU</p><h1>Produk Kantin</h1><p class="subheading">Kelola daftar makanan, minuman, dan snack.</p></div><button class="primary-button" id="addProduct">＋ Tambah produk</button></div>
+        <div class="stats-grid compact-stats"><article class="stat-card"><div class="muted">Total produk</div><div class="stat-value" id="totalProducts">10</div><div class="stat-foot">Menu terdaftar</div></article><article class="stat-card"><div class="muted">Stok menipis</div><div class="stat-value">2</div><div class="stat-foot">Perlu dicek</div></article><article class="stat-card"><div class="muted">Kategori</div><div class="stat-value">3</div><div class="stat-foot">Makanan, minuman, snack</div></article></div>
+        <article class="panel full-table"><div class="panel-heading"><div><h2>Semua produk</h2><p>Gunakan pencarian untuk menemukan menu.</p></div><input class="inline-search" id="allProductSearch" placeholder="Cari produk..."></div><div class="table-scroll"><table><thead><tr><th>Produk</th><th>Kategori</th><th>Harga</th><th>Terjual</th><th>Omzet</th><th>Status</th></tr></thead><tbody id="allProductRows"></tbody></table></div></article>
+      </section>
+
+      <section class="page" id="laporanPage">
+        <div class="page-heading"><div><p class="eyebrow">ANALISIS BISNIS</p><h1>Laporan Penjualan</h1><p class="subheading">Ringkasan performa penjualan kantin.</p></div><button class="primary-button" id="exportCsv">↓ Export CSV</button></div>
+        <div class="stats-grid"><article class="stat-card"><div class="muted">Total omzet</div><div class="stat-value">Rp1.410.000</div><div class="stat-foot"><span class="trend">↗ 12,8%</span> dibanding minggu lalu</div></article><article class="stat-card"><div class="muted">Rata-rata harian</div><div class="stat-value">Rp201.429</div><div class="stat-foot">Selama 7 hari</div></article><article class="stat-card"><div class="muted">Produk terlaris</div><div class="stat-value">Es Teh Manis</div><div class="stat-foot">42 item terjual</div></article></div>
+        <article class="panel report-chart"><div class="panel-heading"><div><h2>Grafik penjualan mingguan</h2><p>Omzet harian dalam rupiah</p></div></div><div class="chart-wrap tall"><canvas id="reportChart"></canvas></div></article>
+      </section>
+
+      <section class="page" id="pengaturanPage">
+        <div class="page-heading"><div><p class="eyebrow">PREFERENSI</p><h1>Pengaturan</h1><p class="subheading">Atur informasi dasar dashboard kantin.</p></div></div>
+        <article class="panel settings-panel"><h2>Informasi kantin</h2><p class="settings-desc">Informasi ini ditampilkan di dashboard admin.</p><form id="settingsForm"><label>Nama kantin<input id="canteenName" value="Kantin HSI-BS" required></label><label>Nama sekolah<input value="HSI Boarding School" required></label><label>Email admin<input type="email" value="admin@kantin.local" required></label><label>Tampilan<select id="themeSelect"><option value="light">Mode terang</option><option value="dark">Mode gelap</option></select></label><button class="primary-button" type="submit">Simpan pengaturan</button></form></article>
+      </section>
+    </main>
+  </div>
+  <div class="toast" id="toast" role="status"></div>
+  <dialog id="productDialog"><form id="productForm" method="dialog"><div class="dialog-head"><div><h2>Tambah produk</h2><p>Isi data menu baru kantin.</p></div><button type="button" class="close-dialog" id="closeDialog">×</button></div><label>Nama produk<input id="newName" required placeholder="Contoh: Roti Bakar"></label><label>Kategori<select id="newCategory"><option>Makanan</option><option>Minuman</option><option>Snack</option></select></label><label>Harga (Rp)<input id="newPrice" type="number" min="500" step="500" required placeholder="10000"></label><label>Stok<input id="newStock" type="number" min="0" required value="20"></label><div class="dialog-actions"><button type="button" class="outline-button" id="cancelDialog">Batal</button><button class="primary-button" type="submit">Simpan produk</button></div></form></dialog>
+  <script src="script.js"></script>
+</body>
+</html>
